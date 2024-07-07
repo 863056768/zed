@@ -1,0 +1,29 @@
+name: Rust Build and Release
+
+on:
+  workflow_dispatch:  # Manually trigger workflow
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Upgrade Rust and Install wasm32-wasi target
+        run: |
+          rustup update stable
+          rustup target add wasm32-wasi
+
+      - name: Build Release Binary
+        run: cargo build --release
+
+      - name: Upload Release Binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: zed.exe
+          path: target/release/zed.exe  # Adjust the path to your actual executable
+
