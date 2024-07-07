@@ -8,14 +8,18 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2  # This action checks out your repository
+        
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
+          
       - name: Upgrade Rust and Install wasm32-wasi target
         run: |
-          rustup update stable
+          rustup update
           rustup target add wasm32-wasi
 
       - name: Build Release Binary
